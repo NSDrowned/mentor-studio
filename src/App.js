@@ -48,7 +48,7 @@ export default function App() {
         /> */}
         <div id="editor"></div>
         <div id="footer">
-          {/* <DraggableCore>
+          <DraggableCore>
             <Webcam
                 audio={false}
                 width={200}
@@ -56,8 +56,8 @@ export default function App() {
                 mirrored={true}
                 screenshotFormat="image/jpeg"
             />
-          </DraggableCore> */}
-          <video></video>
+          </DraggableCore>
+          <video id="preview"></video>
           <button id="startBtn">Start</button>
           <button id="stopBtn">Stop</button>
           <button id="videoSelectBtn">

@@ -6,7 +6,7 @@ const recordedChunks = [];
 
 // Buttons
 
-const videoElement = document.querySelector('video');
+const videoElement = document.getElementById('preview');
 
 const startBtn = document.getElementById('startBtn');
 startBtn.onclick = e => {
@@ -31,7 +31,6 @@ videoSelectBtn.onclick = getVideoSources;
 var windowSourceId;
 
 ipcRenderer.on('CAPTURE_SOURCE', async (event, source) => {
-  console.log(source);
   windowSourceId = source;
 });
 
@@ -60,8 +59,8 @@ async function selectSource(source) {
   const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
   // Preview the source in a video element
-  videoElement.srcObject = stream;
-  videoElement.play();
+  // videoElement.srcObject = stream;
+  // videoElement.play();
 
   // Create the Media Recorder
   const options = { mimeType: 'video/webm; codecs=vp9' };

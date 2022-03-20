@@ -21,6 +21,8 @@ const createWindow = () => {
   win.show();
   win.webContents.openDevTools()
 
+  // select screen recording source
+
   desktopCapturer.getSources({ types: ['window'] }).then(sources => {
     for (const source of sources) {
       if (source.name === 'mentor-studio') {
@@ -30,9 +32,9 @@ const createWindow = () => {
     }
   })
 
-  ipcMain.handle('showSaveDialog', async (event, buffer) => {
-    // dialog.showOpenDialog(event.sender);
+  // save recorded video
 
+  ipcMain.handle('showSaveDialog', async (event, buffer) => {
     const { filePath } = await dialog.showSaveDialog(event.sender, {
       buttonLabel: 'Save video',
       defaultPath: `vid-${Date.now()}.webm`
@@ -44,7 +46,6 @@ const createWindow = () => {
   });
 
 }
-
 
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
