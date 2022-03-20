@@ -1,5 +1,5 @@
 {
-  "name": "mentor-editor-electron",
+  "name": "mentor-studio",
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "webpack-cli": "^4.9.2"
   },
   "scripts": {
-    "start": "electron .",
+    "start": "electron . --enable-logging",
     "watch": "webpack --config webpack.commons.js --watch"
   },
   "dependencies": {
