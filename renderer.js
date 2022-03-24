@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require("electron");
 
 // Global state
 let mediaRecorder; // MediaRecorder instance to capture footage
@@ -6,31 +6,31 @@ const recordedChunks = [];
 
 // Buttons
 
-const videoElement = document.getElementById('preview');
+const videoElement = document.getElementById("preview");
 
-const startBtn = document.getElementById('startBtn');
-startBtn.onclick = e => {
+const startBtn = document.getElementById("startBtn");
+startBtn.onclick = (e) => {
   mediaRecorder.start();
-  startBtn.classList.add('is-danger');
-  startBtn.innerText = 'Recording';
+  startBtn.classList.add("is-danger");
+  startBtn.innerText = "Recording";
 };
 
-const stopBtn = document.getElementById('stopBtn');
+const stopBtn = document.getElementById("stopBtn");
 
-stopBtn.onclick = e => {
+stopBtn.onclick = (e) => {
   mediaRecorder.stop();
-  startBtn.classList.remove('is-danger');
-  startBtn.innerText = 'Start';
+  startBtn.classList.remove("is-danger");
+  startBtn.innerText = "Start";
 };
 
-const videoSelectBtn = document.getElementById('videoSelectBtn');
+const videoSelectBtn = document.getElementById("videoSelectBtn");
 videoSelectBtn.onclick = getVideoSources;
 
 // get video source
 
 var windowSourceId;
 
-ipcRenderer.on('CAPTURE_SOURCE', async (event, source) => {
+ipcRenderer.on("CAPTURE_SOURCE", async (event, source) => {
   windowSourceId = source;
 });
 
@@ -42,17 +42,16 @@ function getVideoSources() {
 
 // Change the videoSource window to record
 async function selectSource(source) {
-
   videoSelectBtn.innerText = source.name;
 
   const constraints = {
     audio: false,
     video: {
       mandatory: {
-        chromeMediaSource: 'desktop',
-        chromeMediaSourceId: source.id
-      }
-    }
+        chromeMediaSource: "desktop",
+        chromeMediaSourceId: source.id,
+      },
+    },
   };
 
   // Create a Stream
@@ -63,7 +62,7 @@ async function selectSource(source) {
   // videoElement.play();
 
   // Create the Media Recorder
-  const options = { mimeType: 'video/webm; codecs=vp9' };
+  const options = { mimeType: "video/webm; codecs=vp9" };
   mediaRecorder = new MediaRecorder(stream, options);
 
   // Register Event Handlers
@@ -75,21 +74,19 @@ async function selectSource(source) {
 
 // Captures all recorded chunks
 function handleDataAvailable(e) {
-  console.log('video data available');
+  console.log("video data available");
   recordedChunks.push(e.data);
 }
 
 // Saves the video file on stop
 async function handleStop(e) {
   const blob = new Blob(recordedChunks, {
-    type: 'video/webm; codecs=vp9'
+    type: "video/webm; codecs=vp9",
   });
 
   const buffer = Buffer.from(await blob.arrayBuffer());
 
-
-
-  ipcRenderer.invoke('showSaveDialog', buffer);
+  ipcRenderer.invoke("showSaveDialog", buffer);
 
   // const { filePath } = await dialog.showSaveDialog({
   //   buttonLabel: 'Save video',
@@ -99,5 +96,4 @@ async function handleStop(e) {
   // if (filePath) {
   //   writeFile(filePath, buffer, () => console.log('video saved successfully!'));
   // }
-
 }
