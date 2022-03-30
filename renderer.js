@@ -4,20 +4,27 @@ const { ipcRenderer } = require("electron");
 let mediaRecorder; // MediaRecorder instance to capture footage
 const recordedChunks = [];
 
+// const videoElement = document.getElementById("preview");
+
 // Buttons
 
-const videoElement = document.getElementById("preview");
+// Start recording button
 
 const startBtn = document.getElementById("startBtn");
+
 startBtn.onclick = (e) => {
+  console.log("start");
   mediaRecorder.start();
   startBtn.classList.add("is-danger");
   startBtn.innerText = "Recording";
 };
 
+// Stop recording button
+
 const stopBtn = document.getElementById("stopBtn");
 
 stopBtn.onclick = (e) => {
+  console.log("stopped");
   mediaRecorder.stop();
   startBtn.classList.remove("is-danger");
   startBtn.innerText = "Start";
@@ -28,20 +35,10 @@ videoSelectBtn.onclick = getVideoSources;
 
 // get video source
 
-var windowSourceId;
+// var windowSourceId;
 
 ipcRenderer.on("CAPTURE_SOURCE", async (event, source) => {
-  windowSourceId = source;
-});
-
-// Get the available video sources
-
-function getVideoSources() {
-  selectSource(windowSourceId);
-}
-
-// Change the videoSource window to record
-async function selectSource(source) {
+  console.log(source);
   videoSelectBtn.innerText = source.name;
 
   const constraints = {
@@ -68,8 +65,13 @@ async function selectSource(source) {
   // Register Event Handlers
   mediaRecorder.ondataavailable = handleDataAvailable;
   mediaRecorder.onstop = handleStop;
+});
 
-  // Updates the UI
+// Get the available video sources
+
+function getVideoSources() {
+  // selectSource(windowSourceId);
+  ipcRenderer.invoke("GET_VIDEO_SOURCES");
 }
 
 // Captures all recorded chunks
@@ -81,7 +83,7 @@ function handleDataAvailable(e) {
 // Saves the video file on stop
 async function handleStop(e) {
   const blob = new Blob(recordedChunks, {
-    type: "video/webm; codecs=vp9",
+    type: "video/mp4; codecs=vp9",
   });
 
   const buffer = Buffer.from(await blob.arrayBuffer());

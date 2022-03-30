@@ -32,13 +32,20 @@ const createWindow = () => {
 
   // select screen recording source
 
+  let sourceTemp;
+
   desktopCapturer.getSources({ types: ["window"] }).then((sources) => {
+    console.log(sources);
     for (const source of sources) {
       if (source.name === "mentor-studio") {
-        win.webContents.send("CAPTURE_SOURCE", source);
-        return;
+        sourceTemp = source;
       }
     }
+  });
+
+  ipcMain.handle("GET_VIDEO_SOURCES", async () => {
+    win.webContents.send("CAPTURE_SOURCE", sourceTemp);
+    return;
   });
 
   // save recorded video
@@ -46,7 +53,7 @@ const createWindow = () => {
   ipcMain.handle("showSaveDialog", async (event, buffer) => {
     const { filePath } = await dialog.showSaveDialog(event.sender, {
       buttonLabel: "Save video",
-      defaultPath: `vid-${Date.now()}.webm`,
+      defaultPath: `vid-${Date.now()}.mp4`,
     });
 
     if (filePath) {

@@ -8,6 +8,7 @@ const BottomButton = styled.button`
   background: #202327;
   border: 1px solid #323439;
   color: #aaa;
+  font-size: 12px;
   margin: 4px 1px;
   padding: 0 18px;
   cursor: pointer;
@@ -39,26 +40,26 @@ export default function App() {
 
   return (
     <div id="contentWrapper">
-      {/* <StackBlitz
-          template="create-react-app"
-          title="Mentor Studio - Powered by Stackblitz"
-          description="Mentor Studio v1.0"
-          tags={["stackblitz", "mentor", "react"]}
-          embedOpts={{
-            elementOrId: 'editor',
-            clickToLoad: false,
-            forceEmbedLayout: true,
-            hideExplorer: false,
-            hideNavigation: false,
-          }}
-          dependencies={{
-            "react": "17.0.1",
-            "react-dom": "17.0.1",
-            "@babel/runtime": "7.12.5",
-          }}
-          files={{
-            "index.html": `<div id="root"></div>`,
-            "index.js": `import React from 'react';
+      <StackBlitz
+        template="create-react-app"
+        title="Mentor Studio - Powered by Stackblitz"
+        description="Mentor Studio v1.0"
+        tags={["stackblitz", "mentor", "react"]}
+        embedOpts={{
+          elementOrId: "editor",
+          clickToLoad: false,
+          forceEmbedLayout: true,
+          hideExplorer: false,
+          hideNavigation: false,
+        }}
+        dependencies={{
+          react: "17.0.1",
+          "react-dom": "17.0.1",
+          "@babel/runtime": "7.12.5",
+        }}
+        files={{
+          "index.html": `<div id="root"></div>`,
+          "index.js": `import React from 'react';
   import ReactDOM from 'react-dom';
   import App from './app';
 
@@ -68,7 +69,7 @@ export default function App() {
     </React.StrictMode>,
     document.getElementById('root')
   );`,
-            "app.js": `import React from 'react';
+          "app.js": `import React from 'react';
 
   function App() {
     return (
@@ -76,9 +77,9 @@ export default function App() {
     );
   }
 
-  export default App;`
-          }}
-        /> */}
+  export default App;`,
+        }}
+      />
       <div id="editor"></div>
       <div id="footer">
         {devices.length > 0 ? (
